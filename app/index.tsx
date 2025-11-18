@@ -13,10 +13,10 @@ export default function HomeScreen() {
       }}
     >
       <Text style={styles.title}>Головна сторінка</Text>
-      <TouchableOpacity style={styles.button} onPress={()=> router.push("nodes")}>
+      <TouchableOpacity style={styles.button} onPress={()=> router.push("notes" as any)}>
         <Text style={styles.textButton}>Перейти на наші нотатки</Text>
       </TouchableOpacity>
-      <TouchableOpacity style={styles.button} onPress={()=> router.push("users")}>
+      <TouchableOpacity style={styles.button} onPress={()=> router.push("users" as any)}>
         <Text style={styles.textButton}>Перейти на наших користувачів</Text>
       </TouchableOpacity>
     </View>

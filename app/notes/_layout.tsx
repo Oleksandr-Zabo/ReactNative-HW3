@@ -1,6 +1,6 @@
 import { Stack } from "expo-router";
 
-export default function NodesLayout() {
+export default function NotesLayout() {
   return <Stack screenOptions={{
     headerShown: false
   }} />;

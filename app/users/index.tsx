@@ -12,14 +12,14 @@ export default function UsersScreen() {
     const [showForm, setShowForm] = useState(true);
     const [searchQuery, setSearchQuery] = useState("");
     const [filterAdults, setFilterAdults] = useState(false);
-    const [sortBy, setSortBy] = useState(null); // 'name' | 'age' | 'email'
-    const [editingUserId, setEditingUserId] = useState(null);
+    const [sortBy, setSortBy] = useState<'name' | 'age' | 'email' | null>(null); // 'name' | 'age' | 'email'
+    const [editingUserId, setEditingUserId] = useState<number | null>(null);
 
-    const validateEmail = (email) => {
+    const validateEmail = (email: string) => {
         const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
         return emailRegex.test(email);
     }
-    const validateAge = (age) => {
+    const validateAge = (age: number) => {
         const ageNumber = Number(age);
         return Number.isInteger(ageNumber) && ageNumber > 0;
     }
@@ -30,7 +30,7 @@ export default function UsersScreen() {
             alert("Будь ласка, введіть дійсну електронну адресу.");
             return;
         }
-        if (!validateAge(age)) {
+        if (!validateAge(Number(age))) {
             alert("Будь ласка, введіть дійсний вік.");
             return;
         }
@@ -51,11 +51,11 @@ export default function UsersScreen() {
         setAge("");
     }
 
-    const deleteUser = (id) => {
+    const deleteUser = (id: number) => {
         setUsers((prevUsers) => prevUsers.filter((user) => user.id !== id));
     }
 
-    const startEdit = (user) => {
+    const startEdit = (user: { id: number; name: string; email: string; age: number }) => {
         setEditingUserId(user.id);
         setName(user.name);
         setEmail(user.email);

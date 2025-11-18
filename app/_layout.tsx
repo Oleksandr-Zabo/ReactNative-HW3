@@ -20,6 +20,6 @@ export default function RootLayout() {
   }>
     <Stack.Screen name = "index" options = {{title: "Home"}}/>
     <Stack.Screen name = "users" options = {{title: "Users"}}/>
-    <Stack.Screen name = "nodes" options = {{title: "Nodes"}}/>
+    <Stack.Screen name = "notes" options = {{title: "Notes"}}/>
   </Stack>;
 }
