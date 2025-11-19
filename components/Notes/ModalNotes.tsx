@@ -1,4 +1,5 @@
-import { Modal, Text, TouchableOpacity, View, StyleSheet, Alert, TextInput } from "react-native";
+import { Alert, Modal, StyleSheet, Text, TextInput, View } from "react-native";
+import CustomButton from "../CustomButton";
 
 interface ModalNotesProps {
     modalVisible: boolean;
@@ -31,21 +32,10 @@ export const ModalNotes = ({ modalVisible, setModalVisible, textNote, setTextNot
                         numberOfLines={2}
                     />
                     <View style={styles.modalButtonsContainer}>
-                        <TouchableOpacity
-                            style={styles.modalButton}
-                            onPress={() => {
-                                addNote();
-                                setModalVisible(false);
-                            }}
-                        >
-                            <Text style={styles.modalButtonText}>Додати</Text>
-                        </TouchableOpacity>
-                        <TouchableOpacity
-                            style={styles.modalCancelButton}
-                            onPress={() => setModalVisible(false)}
-                        >
-                            <Text style={styles.modalButtonText}>Відміна</Text>
-                        </TouchableOpacity>
+                        <View style={styles.modalButtonLeft}>
+                            <CustomButton title="Додати" onPress={() => { addNote(); setModalVisible(false); }} />
+                        </View>
+                        <CustomButton title="Відміна" onPress={() => setModalVisible(false)} variant="secondary" />
                     </View>
                 </View>
             </View>
@@ -97,6 +87,7 @@ const styles = StyleSheet.create(
             borderRadius: 5,
             alignItems: "center",
         },
+        modalButtonLeft: { marginRight: 8 },
         modalButtonText: {
             color: "#fff",
             fontSize: 18,
