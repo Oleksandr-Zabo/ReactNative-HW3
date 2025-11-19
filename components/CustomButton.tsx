@@ -9,7 +9,7 @@ interface Props {
 	onPress?: () => void;
 	variant?: Variant;
 	active?: boolean;
-	style?: ViewStyle; // reserved for layout-only overrides (margins) not visuals
+	style?: ViewStyle;
 }
 
 export const CustomButton = ({ title, onPress, variant = "primary", active = false, style }: Props) => {
@@ -33,7 +33,7 @@ const styles = StyleSheet.create({
  		alignItems: "center",
  		justifyContent: "center",
  	},
- 	// submit / primary (bigger, rounded)
+ 	// submit / primary
  	primary: {
  		backgroundColor: COLORS.primary,
  		paddingVertical: 10,
@@ -41,10 +41,9 @@ const styles = StyleSheet.create({
  		borderRadius: 10,
  	},
  	primaryActive: {
- 		// keep same background for now; could darken if desired
  		backgroundColor: "#05566f",
  	},
- 	// secondary (lighter, bordered, smaller padding) - used for toggles/filters
+ 	// secondary for toggles/filters
  	secondary: {
  		backgroundColor: COLORS.secondaryBg,
  		paddingVertical: 6,

@@ -15,7 +15,6 @@ interface Props {
 }
 
 export const ModalUsers = ({ name, setName, email, setEmail, age, setAge, onSubmit, onCancel, editing, ...rest }: Props & { modalVisible?: boolean; setModalVisible?: (v: boolean) => void }) => {
-  // the actual modal visibility is controlled by parent via `modalVisible`/`setModalVisible` props
   const modalVisible = (rest as any).modalVisible as boolean | undefined;
   const setModalVisible = (rest as any).setModalVisible as ((v: boolean) => void) | undefined;
 
