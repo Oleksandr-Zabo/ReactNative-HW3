@@ -3,7 +3,7 @@ import CustomButton from "../../components/CustomButton";
 import ModalUsers from "../../components/Users/ModalUsers";
 import styles from "../../components/Users/styles";
 import UserList from "../../components/Users/UserList";
-import useUsers from "./useUsers";
+import useUsers from "../users/useUsers";
 
 export default function UsersScreen() {
     const {
