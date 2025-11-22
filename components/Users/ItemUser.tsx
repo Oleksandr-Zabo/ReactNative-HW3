@@ -1,6 +1,8 @@
+import useTheme from "@/hooks/useTheme";
 import React from "react";
-import { StyleSheet, Text, View } from "react-native";
+import { Text, View } from "react-native";
 import CustomButton from "../CustomButton";
+import getUsersStyles from "./users.styles";
 
 interface Props {
   id: number;
@@ -12,15 +14,18 @@ interface Props {
 }
 
 export const ItemUser = ({ id, name, email, age, onEdit, onDelete }: Props) => {
+  const { colors } = useTheme();
+  const styles = getUsersStyles(colors);
+
   return (
-    <View style={styles.container}>
-      <View style={styles.col}>
-        <Text style={styles.name}>{name}</Text>
-        <Text style={styles.email}>{email}</Text>
-        <Text style={styles.age}>Вік: {age}</Text>
+    <View style={styles.itemContainer}>
+      <View style={{ flex: 1, paddingRight: 8 }}>
+        <Text style={styles.nameText}>{name}</Text>
+        <Text style={styles.emailText}>{email}</Text>
+        <Text style={{ color: colors.textMuted, marginTop: 2 }}>Вік: {age}</Text>
       </View>
-      <View style={styles.actions}>
-        <View style={styles.actionButtonSpacing}>
+      <View style={{ alignItems: 'flex-end', justifyContent: 'center' }}>
+        <View style={{ marginBottom: 6 }}>
           <CustomButton title="Редагувати" onPress={() => onEdit(id)} variant="secondary" />
         </View>
         <CustomButton title="Видалити" onPress={() => onDelete(id)} variant="danger" />
@@ -28,43 +33,5 @@ export const ItemUser = ({ id, name, email, age, onEdit, onDelete }: Props) => {
     </View>
   );
 };
-
-const styles = StyleSheet.create({
-  container: {
-    flexDirection: "row",
-    alignItems: "center",
-    justifyContent: "space-between",
-    backgroundColor: "#fff",
-    padding: 12,
-    borderRadius: 10,
-    borderWidth: 1,
-    borderColor: "#eef6fb",
-    marginBottom: 10,
-  },
-  col: {
-    flex: 1,
-    paddingRight: 8,
-  },
-  name: {
-    fontSize: 16,
-    fontWeight: "700",
-    color: "#1b262c",
-  },
-  email: {
-    color: "#4b5b6a",
-    marginTop: 4,
-  },
-  age: {
-    color: "#6b7a86",
-    marginTop: 2,
-  },
-  actions: {
-    alignItems: "flex-end",
-    justifyContent: "center",
-  },
-  actionButtonSpacing: {
-    marginBottom: 6,
-  },
-});
 
 export default ItemUser;

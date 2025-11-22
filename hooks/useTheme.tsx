@@ -1,0 +1,87 @@
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import { createContext, useContext, useEffect, useState } from "react";
+ 
+export interface ColorTheme {
+  bg: string;
+  surface: string;
+  text: string;
+  textMuted: string;
+  border: string;
+  primary: string;
+  success: string;
+  warning: string;
+  danger: string;
+  shadow: string;
+}
+ 
+const lightColor: ColorTheme = {
+  bg: "#f8fafc",
+  surface: "#ffffff",
+  text: "#1e293b",
+  textMuted: "#64748b",
+  border: "#e2e8f0",
+  primary: "#3b82f6",
+  success: "#10b981",
+  warning: "#f59e0b",
+  danger: "#ef4444",
+  shadow: "#000000",
+};
+ 
+const darkColor: ColorTheme = {
+  bg: "#0f172a",
+  surface: "#1e293b",
+  text: "#f1f5f9",
+  textMuted: "#94a3b8",
+  border: "#334155",
+  primary: "#60a5fa",
+  success: "#34d399",
+  warning: "#fbbf24",
+  danger: "#f87171",
+  shadow: "#000000",
+};
+ 
+interface ThemeContextType {
+  isDarkMode: boolean;
+  toggleDarkMode: () => void;
+  colors: ColorTheme;
+}
+ 
+const ThemeContext = createContext<ThemeContextType | undefined>(undefined);
+ 
+export const ThemeProvider = ({ children }: { children: React.ReactNode }) => {
+  const [isDarkMode, setIsDarkMode] = useState(false);
+ 
+  useEffect(() => {
+    AsyncStorage.getItem("darkMode").then((data) => {
+      if (data) {
+        setIsDarkMode(JSON.parse(data));
+      }
+    });
+  }, []);
+ 
+  const toggleDarkMode = () => {
+    const newMode = !isDarkMode;
+    setIsDarkMode(newMode);
+    AsyncStorage.setItem("darkMode", JSON.stringify(newMode));
+  };
+ 
+  const colors = isDarkMode ? darkColor : lightColor;
+ 
+  return (
+    <ThemeContext.Provider value={{ isDarkMode, toggleDarkMode, colors }}>
+      {children}
+    </ThemeContext.Provider>
+  );
+};
+ 
+const useTheme = () => {
+  const context = useContext(ThemeContext);
+ 
+  if (context === undefined) {
+    throw new Error("useTheme повинен бути використано в ThemeProvider");
+  }
+ 
+  return context;
+};
+ 
+export default useTheme;

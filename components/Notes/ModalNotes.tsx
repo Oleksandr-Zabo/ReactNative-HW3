@@ -1,5 +1,7 @@
-import { Alert, Modal, StyleSheet, Text, TextInput, View } from "react-native";
+import useTheme from "@/hooks/useTheme";
+import { Alert, Modal, Text, TextInput, View } from "react-native";
 import CustomButton from "../CustomButton";
+import getNotesStyles from "./notes.styles";
 
 interface ModalNotesProps {
     modalVisible: boolean;
@@ -10,6 +12,9 @@ interface ModalNotesProps {
 }
 
 export const ModalNotes = ({ modalVisible, setModalVisible, textNote, setTextNote, addNote }: ModalNotesProps) => {
+    const { colors } = useTheme();
+    const styles = getNotesStyles(colors);
+
     return (
         <Modal
             animationType="slide"
@@ -18,16 +23,17 @@ export const ModalNotes = ({ modalVisible, setModalVisible, textNote, setTextNot
             onRequestClose={() => {
                 Alert.alert('Modal has been closed.');
                 setModalVisible(false);
-            }}>
+            }}
+        >
             <View style={styles.modalOverlay}>
                 <View style={styles.modalContent}>
-                    <Text style={styles.modalTitle}>Hello World form Modal!</Text>
+                    <Text style={styles.modalTitle}>Додати замітку</Text>
                     <TextInput
                         style={styles.modalInput}
                         value={textNote}
                         onChangeText={setTextNote}
                         placeholder="Введіть текст"
-                        placeholderTextColor="#a1a1a1a1"
+                        placeholderTextColor={colors.textMuted}
                         multiline={true}
                         numberOfLines={2}
                     />
@@ -41,58 +47,4 @@ export const ModalNotes = ({ modalVisible, setModalVisible, textNote, setTextNot
             </View>
         </Modal>
     );
-
-}
-
-const styles = StyleSheet.create(
-    {
-        modalContent: {
-            backgroundColor: "#fff",
-            padding: 20,
-            borderRadius: 10,
-            width: "80%",
-        },
-        modalOverlay: {
-            flex: 1,
-            justifyContent: "center",
-            alignItems: "center",
-            backgroundColor: "rgba(0, 0, 0, 0.5)",
-        },
-        modalTitle: {
-            fontSize: 20,
-            marginBottom: 20,
-        },
-        modalInput: {
-            borderColor: "green",
-            paddingHorizontal: 16,
-            paddingVertical: 10,
-            borderWidth: 1,
-            borderRadius: 10,
-            marginBottom: 20,
-        },
-        modalButtonsContainer: {
-            flexDirection: "row",
-            justifyContent: "space-between",
-            alignItems: "center",
-        },
-        modalCancelButton: {
-            backgroundColor: "#ccc",
-            padding: 10,
-            borderRadius: 5,
-            alignItems: "center",
-        },
-        modalButton: {
-            backgroundColor: "#007bff",
-            padding: 10,
-            borderRadius: 5,
-            alignItems: "center",
-        },
-        modalButtonLeft: { marginRight: 8 },
-        modalButtonText: {
-            color: "#fff",
-            fontSize: 18,
-            fontWeight: "bold",
-        },
-    }
-)
-    ;
+};

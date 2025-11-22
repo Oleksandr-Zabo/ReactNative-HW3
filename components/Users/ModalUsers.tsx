@@ -1,6 +1,8 @@
+import useTheme from "@/hooks/useTheme";
 import React from "react";
-import { Alert, Modal, StyleSheet, Text, TextInput, View } from "react-native";
+import { Alert, Modal, Text, TextInput, View } from "react-native";
 import CustomButton from "../CustomButton";
+import getUsersStyles from "./users.styles";
 
 interface Props {
   name: string;
@@ -14,7 +16,10 @@ interface Props {
   editing?: boolean;
 }
 
-export const ModalUsers = ({ name, setName, email, setEmail, age, setAge, onSubmit, onCancel, editing, ...rest }: Props & { modalVisible?: boolean; setModalVisible?: (v: boolean) => void }) => {
+const ModalUsers = ({ name, setName, email, setEmail, age, setAge, onSubmit, onCancel, editing, ...rest }: Props & { modalVisible?: boolean; setModalVisible?: (v: boolean) => void }) => {
+  const { colors } = useTheme();
+  const styles = getUsersStyles(colors);
+
   const modalVisible = (rest as any).modalVisible as boolean | undefined;
   const setModalVisible = (rest as any).setModalVisible as ((v: boolean) => void) | undefined;
 
@@ -26,15 +31,37 @@ export const ModalUsers = ({ name, setName, email, setEmail, age, setAge, onSubm
       onRequestClose={() => {
         Alert.alert('Modal has been closed.');
         setModalVisible && setModalVisible(false);
-      }}>
-      <View style={modalStyles.modalOverlay}>
-        <View style={modalStyles.modalContent}>
-          <Text style={styles.title}>{editing ? 'Редагувати користувача' : 'Додати користувача'}:</Text>
-          <TextInput style={styles.input} value={name} placeholder="Ім'я" onChangeText={setName} />
-          <TextInput style={styles.input} value={email} placeholder="Email" onChangeText={setEmail} autoCapitalize="none" keyboardType="email-address" />
-          <TextInput style={styles.input} value={age} placeholder="Вік" onChangeText={setAge} keyboardType="numeric" />
-          <View style={styles.buttonsRow}>
-            <View style={styles.buttonLeft}>
+      }}
+    >
+      <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', backgroundColor: 'rgba(0,0,0,0.5)' }}>
+        <View style={{ backgroundColor: colors.surface, borderRadius: 10, padding: 16, width: '90%' }}>
+          <Text style={{ fontSize: 20, fontWeight: '700', color: colors.primary, marginBottom: 12, textAlign: 'center' }}>{editing ? 'Редагувати користувача' : 'Додати користувача'}</Text>
+          <TextInput
+            style={{ backgroundColor: colors.surface, borderRadius: 10, paddingHorizontal: 14, paddingVertical: 10, marginBottom: 12, borderWidth: 1, borderColor: colors.border, color: colors.text, width: '100%' }}
+            value={name}
+            placeholder="Ім'я"
+            placeholderTextColor={colors.textMuted}
+            onChangeText={setName}
+          />
+          <TextInput
+            style={{ backgroundColor: colors.surface, borderRadius: 10, paddingHorizontal: 14, paddingVertical: 10, marginBottom: 12, borderWidth: 1, borderColor: colors.border, color: colors.text, width: '100%' }}
+            value={email}
+            placeholder="Email"
+            placeholderTextColor={colors.textMuted}
+            onChangeText={setEmail}
+            autoCapitalize="none"
+            keyboardType="email-address"
+          />
+          <TextInput
+            style={{ backgroundColor: colors.surface, borderRadius: 10, paddingHorizontal: 14, paddingVertical: 10, marginBottom: 12, borderWidth: 1, borderColor: colors.border, color: colors.text, width: '100%' }}
+            value={age}
+            placeholder="Вік"
+            placeholderTextColor={colors.textMuted}
+            onChangeText={setAge}
+            keyboardType="numeric"
+          />
+          <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+            <View style={{ marginRight: 8 }}>
               <CustomButton title={editing ? 'Зберегти' : 'Додати'} onPress={() => { onSubmit(); setModalVisible && setModalVisible(false); }} variant="primary" />
             </View>
             <CustomButton title="Відміна" onPress={() => { setModalVisible && setModalVisible(false); onCancel && onCancel(); }} variant="secondary" />
@@ -45,27 +72,4 @@ export const ModalUsers = ({ name, setName, email, setEmail, age, setAge, onSubm
   );
 };
 
-const styles = StyleSheet.create({
-  form: { marginBottom: 8 },
-  title: { fontSize: 20, fontWeight: '700', color: '#05668d', marginBottom: 8, textAlign: 'center' },
-  input: { backgroundColor: '#fff', borderRadius: 10, paddingHorizontal: 14, paddingVertical: 10, marginBottom: 8, borderWidth: 1, borderColor: '#e6eef5' },
-  buttonsRow: { flexDirection: 'row', alignItems: 'center' },
-  buttonLeft: { marginRight: 8 },
-});
-
 export default ModalUsers;
-
-const modalStyles = StyleSheet.create({
-  modalContent: {
-    backgroundColor: "#fff",
-    padding: 20,
-    borderRadius: 10,
-    width: "90%",
-  },
-  modalOverlay: {
-    flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
-    backgroundColor: "rgba(0, 0, 0, 0.5)",
-  },
-});

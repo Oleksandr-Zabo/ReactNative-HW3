@@ -1,13 +1,12 @@
-import { useState } from "react";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import { useEffect, useState } from "react";
 import { validateAge, validateEmail } from "../../utils/validators";
 
 type User = { id: number; name: string; email: string; age: number };
 
 export const useUsers = () => {
-  const [users, setUsers] = useState<User[]>([
-    { id: 1, name: "Олена Коваль", email: "olena@example.com", age: 28 },
-    { id: 2, name: "Петро Сидоренко", email: "petro@example.com", age: 32 },
-  ]);
+  // start with empty list; persisted users are loaded from AsyncStorage on mount
+  const [users, setUsers] = useState<User[]>([]);
 
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
@@ -41,6 +40,32 @@ export const useUsers = () => {
     setEmail("");
     setAge("");
   };
+
+  // load users from storage
+  useEffect(() => {
+    (async () => {
+      try {
+        const raw = await AsyncStorage.getItem('users');
+        if (raw) {
+          const parsed = JSON.parse(raw) as User[];
+          setUsers(parsed);
+        }
+      } catch (e) {
+        // ignore
+      }
+    })();
+  }, []);
+
+  // save users on change
+  useEffect(() => {
+    (async () => {
+      try {
+        await AsyncStorage.setItem('users', JSON.stringify(users));
+      } catch (e) {
+        // ignore
+      }
+    })();
+  }, [users]);
 
   const deleteUser = (id: number) => {
     setUsers((prev) => prev.filter((user) => user.id !== id));

@@ -1,8 +1,10 @@
+import useTheme from "@/hooks/useTheme";
 import { Text, TextInput, View } from "react-native";
+import { SafeAreaView } from "react-native-safe-area-context";
 import CustomButton from "../../components/CustomButton";
 import ModalUsers from "../../components/Users/ModalUsers";
-import styles from "../../components/Users/styles";
 import UserList from "../../components/Users/UserList";
+import getUsersStyles from "../../components/Users/users.styles";
 import useUsers from "../users/useUsers";
 
 export default function UsersScreen() {
@@ -29,9 +31,11 @@ export default function UsersScreen() {
         cancelEdit,
         getDisplayedUsers,
     } = useUsers();
+    const { colors } = useTheme();
+    const styles = getUsersStyles(colors);
 
     return (
-        <View style={styles.container}>
+        <SafeAreaView style={styles.container}>
 
             <View style={styles.controlsColumn}>
                 <View style={styles.headerRow}>
@@ -99,7 +103,7 @@ export default function UsersScreen() {
                 <Text key={user.id}>{user.name}</Text>
             ))} */}
             <UserList users={getDisplayedUsers()} onEdit={startEdit} onDelete={deleteUser} />
-        </View>
+        </SafeAreaView>
     );
 
 }

@@ -1,6 +1,8 @@
+import useTheme from "@/hooks/useTheme";
 import React from "react";
-import { FlatList, View } from "react-native";
+import { FlatList, Text, View } from "react-native";
 import ItemUser from "./ItemUser";
+import getUsersStyles from "./users.styles";
 
 interface User {
   id: number;
@@ -16,6 +18,17 @@ interface Props {
 }
 
 export const UserList = ({ users, onEdit, onDelete }: Props) => {
+  const { colors } = useTheme();
+  const styles = getUsersStyles(colors);
+
+  if (!users || users.length === 0) {
+    return (
+      <View style={{ padding: 20 }}>
+        <Text style={{ color: colors.textMuted, textAlign: 'center' }}>Поки що немає користувачів.</Text>
+      </View>
+    );
+  }
+
   return (
     <View>
       <FlatList
